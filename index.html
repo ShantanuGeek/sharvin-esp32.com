@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Setup Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Reset and global styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Header styles */
+        header {
+            background: linear-gradient(45deg, #333, #555);
+            color: white;
+            padding: 1em 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1em;
+        }
+
+        nav .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            margin: 0 1em;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ff6600;
+            transform: scale(1.1);
+        }
+
+        /* Hero section */
+        .hero {
+            background: url('https://image.dfrobot.com/image/cache3/data/DFR0975/DFR0975%20Powerful%20Chips.png') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2;
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin: 0 0 0.5em;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            margin: 0 0 0.5em;
+            color: white; /* Ensure this is white */
+        }
+
+        .hero .author {
+            font-size: 1.2em;
+            margin-top: 0.5em;
+            color: white; /* Ensure this is white */
+        }
+
+        .hero .btn {
+            background-color: #ff6600;
+            color: white;
+            padding: 0.75em 1.5em;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 1em;
+            display: inline-block;
+        }
+
+        .hero .btn:hover {
+            background-color: #e65c00;
+            transform: scale(1.1);
+        }
+
+        /* Content sections */
+        .main-heading {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            padding: 2em 0;
+            background-color: #fff;
+            margin-top: 80px; /* Adjust based on header height */
+            animation: fadeIn 2s ease-in-out;
+        }
+
+        .section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4em 1em;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 2em;
+            animation: fadeIn 2s ease-in-out;
+            transition: transform 0.3s;
+        }
+
+        .section:hover {
+            transform: scale(1.02);
+        }
+
+        .section h2 {
+            margin: 0 0 0.5em;
+            font-size: 2.5em;
+            color: #ff6600;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .section p {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #555;
+            text-align: center;
+        }
+
+        .section ul, .section ol {
+            margin-top: 1em;
+            padding-left: 1.5em;
+        }
+
+        .section ul li, .section ol li {
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2em;
+        }
+
+        .section th, .section td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .section th {
+            background-color: #333;
+            color: white;
+        }
+
+        .section td {
+            background-color: #f9f9f9;
+        }
+
+        .video-container {
+            margin-top: 2em;
+            text-align: center;
+        }
+
+        .video-container iframe {
+            width: 80%;
+            height: 500px;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2em 0;
+            background: linear-gradient(45deg, #333, #555);
+            color: white;
+            margin-top: 2em;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+        }
+
+        .follow-us img {
+            width: 40px;
+            margin: 0 1em;
+            transition: transform 0.3s;
+        }
+
+        .follow-us img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">ESP32 Guide</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#points">6 Key Points</a></li>
+                <li><a href="#setup">Setup</a></li>
+                <li><a href="#arduino-vs-esp32">Arduino vs ESP32</a></li>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="section hero">
+        <div class="hero-content" data-aos="fade-up">
+            <h1>Welcome to ESP32 Setup Guide</h1>
+            <p>Everything you need to get started with your ESP32.</p>
+            <p class="author">by J. SHARVIN</p>
+            <a href="#points" class="btn">Learn More</a>
+        </div>
+    </section>
+
+    <h1 class="main-heading">ESP32 Setup Guide</h1>
+
+    <section id="points" class="section" data-aos="fade-right">
+        <h2>6 Key Points About ESP32</h2>
+        <ul>
+            <li>Powerful microcontroller with Wi-Fi and Bluetooth capabilities.</li>
+            <li>Supports a wide range of applications including IoT and automation.</li>
+            <li>Dual-core processor for efficient multitasking.</li>
+            <li>Integrated sensors for environmental monitoring.</li>
+            <li>Extensive community support and development resources.</li>
+            <li>Low-power consumption ideal for battery-operated devices.</li>
+        </ul>
+    </section>
+
+    <section id="setup" class="section" data-aos="fade-left">
+        <h2>Setup</h2>
+        <p>Follow these steps to set up your ESP32:</p>
+        <ol>
+            <li>Download and install the Arduino IDE.</li>
+            <li>Install the ESP32 board support package.</li>
+            <li>Connect your ESP32 board to your computer.</li>
+            <li>Select the correct board and port in Arduino IDE.</li>
+        </ol>
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/AitCKcyjHuQ" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section id="arduino-vs-esp32" class="section" data-aos="fade-right">
+        <h2>Arduino vs ESP32</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th>Arduino</th>
+                    <th>ESP32</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Microcontroller</td>
+                    <td>ATmega series</td>
+                    <td>ESP32</td>
+                </tr>
+                <tr>
+                    <td>Processor</td>
+                    <td>Single-core</td>
+                    <td>Dual-core</td>
+                </tr>
+                <tr>
+                    <td>Connectivity</td>
+                    <td>Basic</td>
+                    <td>Wi-Fi, Bluetooth</td>
+                </tr>
+                <tr>
+                    <td>Performance</td>
+                    <td>Less powerful</td>
+                    <td>More powerful</td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>Lower</td>
+                    <td>Higher</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <section id="resources" class="section" data-aos="fade-left">
+        <h2>Resources</h2>
+        <p>Useful links for setting up and learning about ESP32:</p>
+        <ul>
+            <li><a href="https://www.arduino.cc/en/Guide/ArduinoIDE" target="_blank">Arduino IDE Setup Guide</a></li>
+            <li><a href="https://randomnerdtutorials.com/getting-started-with-esp32/" target="_blank">Getting Started with ESP32</a></li>
+        </ul>
+    </section>
+
+    <section id="contact" class="section" data-aos="fade-right">
+        <h2>Contact</h2>
+        <p>For inquiries and support, reach out via GitHub:</p>
+        <p>Visit our <a href="https://github.com" target="_blank">GitHub</a> page.</p>
+    </section>
+
+    <footer>
+        <p>Follow us on:</p>
+        <div class="follow-us">
+            <a href="https://www.javascript.com/" target="_blank">
+                <img src="https://image.flaticon.com/icons/svg/733/733547.svg" alt="JavaScript">
+            </a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank">
+                <img src="https://image.flaticon.com/icons/svg/732/732190.svg" alt="CSS">
+            </a>
+            <a href="https://github.com" target="_blank">
+                <img src="https://image.flaticon.com/icons/svg/733/733553.svg" alt="GitHub">
+            </a>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1200,
+        });
+    </script>
+</body>
+</html>
